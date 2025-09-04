@@ -1,6 +1,10 @@
 {
   "name": "webcam-mobilenet-objects-detection",
   "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iNikolas/webcam-mobilenet-objects-detection.git"
+  },
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -9,19 +13,30 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@tensorflow-models/mobilenet": "^2.1.1",
+    "@tensorflow/tfjs-backend-cpu": "^4.22.0",
+    "@tensorflow/tfjs-backend-webgl": "^4.22.0",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.542.0",
+    "next": "15.5.2",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "next": "15.5.2"
+    "react-webcam": "^7.2.0",
+    "tailwind-merge": "^3.3.1",
+    "zustand": "^5.0.8"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@tailwindcss/typography": "^0.5.16",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@tailwindcss/postcss": "^4",
-    "tailwindcss": "^4",
+    "daisyui": "^5.1.6",
     "eslint": "^9",
     "eslint-config-next": "15.5.2",
-    "@eslint/eslintrc": "^3"
+    "eslint-plugin-import": "^2.32.0",
+    "tailwindcss": "^4",
+    "typescript": "^5"
   }
 }
