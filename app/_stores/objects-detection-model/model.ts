@@ -2,15 +2,16 @@ import "@tensorflow/tfjs-backend-cpu";
 import "@tensorflow/tfjs-backend-webgl";
 
 import { create } from "zustand";
-import { version, load } from "@tensorflow-models/mobilenet";
-import type { MobileNet } from "@tensorflow-models/mobilenet";
+import { version, load } from "@tensorflow-models/coco-ssd";
+import type { ObjectDetection } from "@tensorflow-models/coco-ssd";
 
 export const useObjectsDetectionModelStore = create<{
-  instance: MobileNet | null;
+  instance: ObjectDetection | null;
   version: string;
   isLoading: boolean;
   error: string;
   load: () => Promise<void>;
+  errorStateChanged: (error: string) => void;
 }>((set, get) => ({
   instance: null,
   version,
@@ -34,6 +35,9 @@ export const useObjectsDetectionModelStore = create<{
       set({ isLoading: false });
     }
   },
+  errorStateChanged: (error: string) => set({ error }),
 }));
 
-useObjectsDetectionModelStore.getState().load();
+if (globalThis.window) {
+  useObjectsDetectionModelStore.getState().load();
+}

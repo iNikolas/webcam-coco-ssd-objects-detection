@@ -1,9 +1,9 @@
 {
-  "name": "webcam-mobilenet-objects-detection",
+  "name": "webcam-coco-ssd-objects-detection",
   "version": "0.1.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/iNikolas/webcam-mobilenet-objects-detection.git"
+    "url": "https://github.com/iNikolas/webcam-coco-ssd-objects-detection.git"
   },
   "private": true,
   "scripts": {
@@ -13,7 +13,7 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@tensorflow-models/mobilenet": "^2.1.1",
+    "@tensorflow-models/coco-ssd": "^2.2.3",
     "@tensorflow/tfjs-backend-cpu": "^4.22.0",
     "@tensorflow/tfjs-backend-webgl": "^4.22.0",
     "clsx": "^2.1.1",
@@ -21,6 +21,8 @@
     "next": "15.5.2",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "react-select": "^5.10.2",
+    "react-use-measure": "^2.1.7",
     "react-webcam": "^7.2.0",
     "tailwind-merge": "^3.3.1",
     "zustand": "^5.0.8"
