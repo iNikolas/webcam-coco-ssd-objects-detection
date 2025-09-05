@@ -2,20 +2,27 @@
 
 import React from "react";
 import ReactWebcam from "react-webcam";
+import { isMobile } from "react-device-detect";
 
 import { cn } from "@/app/_utils/helpers/common";
+import { useSelectedPredictionsStore } from "@/app/_stores/predictions/model";
 
+import { CameraType } from "./types";
+import { cameraTypes } from "./config";
 import { Webcam } from "../../ui/webcam";
+import { Select } from "../../ui/select";
 import { usePredictionsState } from "./utils";
 import { Predictions } from "./components/predictions";
-import { PredictionsList } from "./components/predictions-list";
 import { ObjectsMultiselect } from "../objects-multiselect";
-import { useSelectedPredictionsStore } from "@/app/_stores/predictions/model";
+import { PredictionsList } from "./components/predictions-list";
 
 export function PredictWebcam({
   className,
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) {
+  const [preferredCamera, setPreferredCamera] = React.useState<CameraType>(
+    cameraTypes.main
+  );
   const { values, setValues } = useSelectedPredictionsStore();
   const [selectedPredictionIdx, setSelectedPredictionIdx] = React.useState<
     number | null
@@ -31,11 +38,28 @@ export function PredictWebcam({
       <div className="col-span-6">
         <ObjectsMultiselect
           value={values}
-          onChange={(values) => setValues(values.map((v) => v.value))}
+          onChange={(values) =>
+            Array.isArray(values) && setValues(values.map((v) => v.value))
+          }
         />
+        {isMobile && (
+          <Select
+            options={Object.values(cameraTypes)}
+            isClearable={false}
+            onChange={(type) =>
+              setPreferredCamera(Array.isArray(type) ? type[0] : type)
+            }
+          />
+        )}
       </div>
       <section className="relative col-span-6 md:col-span-4">
-        <Webcam ref={setWebcam} onLoadedData={onWebcamReady} />
+        <Webcam
+          ref={setWebcam}
+          onLoadedData={onWebcamReady}
+          {...(isMobile && {
+            videoConstraints: { facingMode: preferredCamera.value },
+          })}
+        />
         <Predictions
           importantGroups={values}
           highlightedPredictionIdx={selectedPredictionIdx}
