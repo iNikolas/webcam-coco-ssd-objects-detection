@@ -12,6 +12,7 @@ export function ObjectsMultiselect({
   ...props
 }: Omit<ReactSelectProps<{ label: string; value: string }>, "value"> & {
   value?: string[];
+  label?: string;
 }) {
   return (
     <Select

@@ -35,8 +35,9 @@ export function PredictWebcam({
 
   return (
     <div className={cn("grid grid-cols-6 gap-4 py-4", className)} {...props}>
-      <div className="col-span-6">
+      <div className="col-span-6 flex flex-col gap-3">
         <ObjectsMultiselect
+          label="Important objects that will be highlighted:"
           value={values}
           onChange={(values) =>
             Array.isArray(values) && setValues(values.map((v) => v.value))
@@ -44,6 +45,8 @@ export function PredictWebcam({
         />
         {isMobile && (
           <Select
+            label="Device camera source:"
+            value={preferredCamera}
             options={Object.values(cameraTypes)}
             isClearable={false}
             onChange={(type) =>

@@ -2,11 +2,15 @@
 
 import React from "react";
 import ReactSelect from "react-select";
+import makeAnimated from "react-select/animated";
 import type { Props as ReactSelectProps } from "react-select";
 
+const animatedComponents = makeAnimated();
+
 export function Select({
+  label,
   ...props
-}: ReactSelectProps<{ label: string; value: string }>) {
+}: ReactSelectProps<{ label: string; value: string }> & { label?: string }) {
   const [isMounted, setIsMounted] = React.useState(false);
 
   React.useEffect(() => {
@@ -17,8 +21,9 @@ export function Select({
     return null;
   }
 
-  return (
+  const select = (
     <ReactSelect
+      components={animatedComponents}
       theme={(theme) => ({
         ...theme,
         colors: {
@@ -45,6 +50,10 @@ export function Select({
           ...baseStyles,
           paddingLeft: 15,
           height: 40,
+        }),
+        singleValue: (baseStyles) => ({
+          ...baseStyles,
+          color: `var(--color-base-content)`,
         }),
         multiValue: (baseStyles) => ({
           ...baseStyles,
@@ -78,5 +87,16 @@ export function Select({
       }}
       {...props}
     />
+  );
+
+  if (!label) {
+    return select;
+  }
+
+  return (
+    <label className="floating-label">
+      <span>{label}</span>
+      {select}
+    </label>
   );
 }

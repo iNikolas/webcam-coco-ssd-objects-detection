@@ -11,7 +11,7 @@ export function ModelStatus({ ...props }: React.HTMLAttributes<HTMLElement>) {
 
   const { isLoading, error, instance, load } = useObjectsDetectionModelStore();
 
-  if (hidden) {
+  if (hidden && !error) {
     return null;
   }
 
@@ -30,14 +30,16 @@ export function ModelStatus({ ...props }: React.HTMLAttributes<HTMLElement>) {
             <AlertCircle />
             <span>{error}</span>
           </div>
-          <button
-            type="button"
-            className="btn btn-soft btn-block btn-sm btn-primary"
-            onClick={load}
-          >
-            <RefreshCw className="w-4 h-4" />
-            Retry
-          </button>
+          {!instance && (
+            <button
+              type="button"
+              className="btn btn-soft btn-block btn-sm btn-primary"
+              onClick={load}
+            >
+              <RefreshCw className="w-4 h-4" />
+              Retry
+            </button>
+          )}
         </>
       )}
 

@@ -5,13 +5,13 @@ import { useObjectsDetectionModelStore } from "@/app/_stores/objects-detection-m
 export function useHiddenState() {
   const [hidden, setHidden] = React.useState(false);
 
-  const { isLoading, error, instance } = useObjectsDetectionModelStore();
+  const { isLoading, instance } = useObjectsDetectionModelStore();
 
   React.useEffect(() => {
-    if (isLoading || error || !instance) {
+    if (isLoading || !instance) {
       setHidden(false);
     }
-  }, [error, instance, isLoading]);
+  }, [instance, isLoading]);
 
   return [hidden, setHidden] as const;
 }
