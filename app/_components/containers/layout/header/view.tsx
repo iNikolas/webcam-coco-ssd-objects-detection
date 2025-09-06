@@ -13,7 +13,9 @@ export function Header({
       {...props}
     >
       <div className="flex-1">
-        <h2 className="font-semibold text-xl">Object Detection Model</h2>
+        <h2 className="font-semibold text-xl">
+          Smart Object Detection & Recording Tool
+        </h2>
       </div>
       <div className="flex-none">{children}</div>
     </header>

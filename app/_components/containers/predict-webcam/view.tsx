@@ -38,7 +38,7 @@ export function PredictWebcam({
     <div className={cn("grid grid-cols-6 gap-4 py-4", className)} {...props}>
       <div className="col-span-6 flex flex-col gap-3">
         <ObjectsMultiselect
-          label="Important objects that will be highlighted:"
+          label="Important objects that will be recorded:"
           value={values}
           onChange={(values) =>
             Array.isArray(values) && setValues(values.map((v) => v.value))
