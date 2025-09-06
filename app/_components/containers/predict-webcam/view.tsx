@@ -12,6 +12,7 @@ import { cameraTypes } from "./config";
 import { Webcam } from "../../ui/webcam";
 import { Select } from "../../ui/select";
 import { usePredictionsState } from "./utils";
+import { Recordings } from "./components/recordings";
 import { Predictions } from "./components/predictions";
 import { ObjectsMultiselect } from "../objects-multiselect";
 import { PredictionsList } from "./components/predictions-list";
@@ -78,6 +79,15 @@ export function PredictWebcam({
         predictions={predictions}
         highlightedPredictionIdx={selectedPredictionIdx}
         onSelectedPrediction={setSelectedPredictionIdx}
+      />
+      <Recordings
+        className="col-span-6"
+        detections={predictions.reduce<string[]>(
+          (acc, val) =>
+            values.includes(val.class) ? [...acc, val.class] : acc,
+          []
+        )}
+        webcam={webcam}
       />
     </div>
   );
