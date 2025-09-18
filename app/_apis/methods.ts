@@ -9,7 +9,7 @@ export async function loadModel() {
     const cachedModel = await tf.loadGraphModel(localKey);
     return cachedModel;
   } catch {
-    const model = await tf.loadGraphModel(modelPath, { fromTFHub: true });
+    const model = await tf.loadGraphModel(modelPath);
     await model.save(localKey);
 
     return model;

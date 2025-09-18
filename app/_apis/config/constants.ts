@@ -1,4 +1,3 @@
-export const modelPath =
-  "https://www.kaggle.com/models/google/mobilenet-v2/TfJs/035-128-classification/3";
+export const modelPath = "/yolo11l_web_model/model.json";
 
-export const localKey = "indexeddb://mobilenet-v2";
+export const localKey = "indexeddb://yolo11l_web_model";

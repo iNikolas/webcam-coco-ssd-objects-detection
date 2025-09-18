@@ -77,7 +77,7 @@ export default function RootLayout({
         <QueryClientProviderWrapper>
           <div className="flex flex-col h-screen">
             <Header className="px-4 max-w-7xl mx-auto w-full">
-              <ModelVersion className="badge badge-secondary">v</ModelVersion>
+              <ModelVersion className="badge badge-secondary" />
             </Header>
             <main className="flex-1 overflow-auto px-4 max-w-7xl mx-auto w-full">
               {children}

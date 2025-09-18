@@ -1,9 +1,9 @@
 import React from "react";
-import { DetectedObject } from "@tensorflow-models/coco-ssd";
 
-import { useObjectsDetectionModelStore } from "@/app/_stores/objects-detection-model";
-import { predict } from "@/app/_utils/helpers/common";
+import { DetectedObject } from "@/app/_entities";
+import { predict } from "@/app/_utils/helpers/model";
 import { useModelQuery } from "@/app/_utils/hooks/queries";
+import { useModelErrorStore } from "@/app/_stores/objects-detection-model";
 
 export function usePredictionsState(video: HTMLVideoElement | null) {
   const [isReady, setIsReady] = React.useState(false);
@@ -11,7 +11,7 @@ export function usePredictionsState(video: HTMLVideoElement | null) {
   const [predictions, setPredictions] = React.useState<DetectedObject[]>([]);
 
   const { data: instance } = useModelQuery();
-  const { errorStateChanged } = useObjectsDetectionModelStore();
+  const { errorStateChanged } = useModelErrorStore();
 
   React.useEffect(() => {
     if (!isReady || !instance) {
@@ -26,17 +26,15 @@ export function usePredictionsState(video: HTMLVideoElement | null) {
           throw new Error("Webcam video not available");
         }
 
-        await predict({
+        const predictions = await predict({
           source: video,
           model: instance,
-          onSuccess: () => {
-            console.log("onSuccess");
-          },
         });
+
+        setPredictions(predictions);
 
         errorStateChanged("");
       } catch (error) {
-        console.log(error);
         errorStateChanged(
           error instanceof Error ? error.message : JSON.stringify(error)
         );
