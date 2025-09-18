@@ -6,6 +6,7 @@ import { Footer, Header } from "./_components/containers/layout";
 import { ModelVersion } from "./_components/containers/model/version";
 
 import "./globals.css";
+import { QueryClientProviderWrapper } from "./_components/providers/query-client";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -73,15 +74,17 @@ export default function RootLayout({
       <body
         className={cn(geistSans.variable, geistMono.variable, "antialiased")}
       >
-        <div className="flex flex-col h-screen">
-          <Header className="px-4 max-w-7xl mx-auto w-full">
-            <ModelVersion className="badge badge-secondary">v</ModelVersion>
-          </Header>
-          <main className="flex-1 overflow-auto px-4 max-w-7xl mx-auto w-full">
-            {children}
-          </main>
-          <Footer className="[&_footer]:px-4 [&_footer]:max-w-7xl [&_footer]:mx-auto [&_footer]:w-full" />
-        </div>
+        <QueryClientProviderWrapper>
+          <div className="flex flex-col h-screen">
+            <Header className="px-4 max-w-7xl mx-auto w-full">
+              <ModelVersion className="badge badge-secondary" />
+            </Header>
+            <main className="flex-1 overflow-auto px-4 max-w-7xl mx-auto w-full">
+              {children}
+            </main>
+            <Footer className="[&_footer]:px-4 [&_footer]:max-w-7xl [&_footer]:mx-auto [&_footer]:w-full" />
+          </div>
+        </QueryClientProviderWrapper>
       </body>
     </html>
   );

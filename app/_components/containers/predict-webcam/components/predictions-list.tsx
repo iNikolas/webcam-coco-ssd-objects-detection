@@ -2,8 +2,8 @@
 
 import React from "react";
 import { Heart } from "lucide-react";
-import { DetectedObject } from "@tensorflow-models/coco-ssd";
 
+import { DetectedObject } from "@/app/_entities";
 import { capitalizeWords, cn } from "@/app/_utils/helpers/common";
 import { useSelectedPredictionsStore } from "@/app/_stores/predictions";
 

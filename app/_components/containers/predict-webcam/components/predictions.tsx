@@ -2,8 +2,8 @@
 
 import React from "react";
 import useMeasure from "react-use-measure";
-import { DetectedObject } from "@tensorflow-models/coco-ssd";
 
+import { DetectedObject } from "@/app/_entities";
 import { capitalizeWords, cn } from "@/app/_utils/helpers/common";
 
 export function Predictions({

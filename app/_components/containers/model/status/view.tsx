@@ -2,14 +2,24 @@
 
 import React from "react";
 import { AlertCircle, CheckCircle2, RefreshCw, X } from "lucide-react";
-import { useObjectsDetectionModelStore } from "@/app/_stores/objects-detection-model";
+
+import { useModelQuery } from "@/app/_utils/hooks/queries";
+import { useModelErrorStore } from "@/app/_stores/objects-detection-model";
 
 import { useHiddenState } from "./utils";
 
 export function ModelStatus({ ...props }: React.HTMLAttributes<HTMLElement>) {
   const [hidden, setHidden] = useHiddenState();
 
-  const { isLoading, error, instance, load } = useObjectsDetectionModelStore();
+  const {
+    isLoading,
+    error: loadingError,
+    data: instance,
+    refetch: load,
+  } = useModelQuery();
+  const { error: modelError } = useModelErrorStore();
+
+  const error = [modelError, loadingError?.message].filter(Boolean).join(", ");
 
   if (hidden && !error) {
     return null;
@@ -24,7 +34,7 @@ export function ModelStatus({ ...props }: React.HTMLAttributes<HTMLElement>) {
         </div>
       )}
 
-      {error && (
+      {!!error && (
         <>
           <div role="alert" className="alert alert-error">
             <AlertCircle />
@@ -34,7 +44,7 @@ export function ModelStatus({ ...props }: React.HTMLAttributes<HTMLElement>) {
             <button
               type="button"
               className="btn btn-soft btn-block btn-sm btn-primary"
-              onClick={load}
+              onClick={() => load()}
             >
               <RefreshCw className="w-4 h-4" />
               Retry
