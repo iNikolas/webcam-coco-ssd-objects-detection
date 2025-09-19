@@ -1,3 +1,8 @@
-import { loadModel } from "./methods";
+import * as tf from "@tensorflow/tfjs";
 
-export type Model = Awaited<ReturnType<typeof loadModel>>;
+import { supportedModels } from "./config";
+
+export type SupportedModel =
+  (typeof supportedModels)[keyof typeof supportedModels];
+
+export type Model = Awaited<ReturnType<typeof tf.loadGraphModel>>;

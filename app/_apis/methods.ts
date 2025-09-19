@@ -1,15 +1,17 @@
 import * as tf from "@tensorflow/tfjs";
 
-import { localKey, modelPath } from "./config";
+import type { Model, SupportedModel } from "./types";
 
-export async function loadModel() {
+export async function loadModel(modelName: SupportedModel): Promise<Model> {
   await tf.ready();
+
+  const localKey = `indexeddb://${modelName}`;
 
   try {
     const cachedModel = await tf.loadGraphModel(localKey);
     return cachedModel;
   } catch {
-    const model = await tf.loadGraphModel(modelPath);
+    const model = await tf.loadGraphModel(`/model/${modelName}/model.json`);
     await model.save(localKey);
 
     return model;

@@ -40,7 +40,7 @@ export function ModelStatus({ ...props }: React.HTMLAttributes<HTMLElement>) {
             <AlertCircle />
             <span>{error}</span>
           </div>
-          {!instance && (
+          {!instance && !isLoading && (
             <button
               type="button"
               className="btn btn-soft btn-block btn-sm btn-primary"
