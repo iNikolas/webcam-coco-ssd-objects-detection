@@ -17,6 +17,29 @@ export function cropToSquare(img: tf.Tensor3D): tf.Tensor3D {
   return img.slice([top, left, 0], [size, size, 3]);
 }
 
+export function padToSquare(img: tf.Tensor3D): tf.Tensor3D {
+  const [h, w] = img.shape;
+  if (h === w) return img;
+
+  const diff = Math.abs(h - w);
+
+  if (h > w) {
+    const pad: [number, number][] = [
+      [0, 0],
+      [Math.floor(diff / 2), Math.ceil(diff / 2)],
+      [0, 0],
+    ];
+    return img.pad(pad);
+  } else {
+    const pad: [number, number][] = [
+      [Math.floor(diff / 2), Math.ceil(diff / 2)],
+      [0, 0],
+      [0, 0],
+    ];
+    return img.pad(pad);
+  }
+}
+
 function normalizeRawBoxes(rawBoxes: tf.Tensor2D) {
   const [cx, cy, bw, bh] = tf.split<tf.Tensor2D>(rawBoxes, 4, 1);
 
@@ -84,7 +107,7 @@ export async function predict({
   }
 
   const { boxes, confidences, classIndices } = tf.tidy(() => {
-    const imageTensor = cropToSquare(
+    const imageTensor = padToSquare(
       tf.browser.fromPixels(source).toFloat().div(255)
     )
       .resizeBilinear([imageHeightPx, imageWidthPx])
@@ -122,25 +145,25 @@ export async function predict({
   const sourceWidth = source.videoWidth;
   const sourceHeight = source.videoHeight;
 
-  const sourceRatio = Math.min(
+  const sourceRatio = Math.max(
     sourceWidth / imageWidthPx,
     sourceHeight / imageHeightPx
   );
 
   const sourceAspectRatio = sourceWidth / sourceHeight;
-  const truncatedPx = Math.abs(sourceWidth - sourceHeight);
+  const paddedPx = Math.abs(sourceWidth - sourceHeight);
 
-  const halfWidthTruncatedPx = (sourceAspectRatio > 1 ? truncatedPx : 0) / 2;
-  const halfHeightTruncatedPx = (sourceAspectRatio < 1 ? truncatedPx : 0) / 2;
+  const halfWidthPaddedPx = (sourceAspectRatio < 1 ? paddedPx : 0) / 2;
+  const halfHeightPaddedPx = (sourceAspectRatio > 1 ? paddedPx : 0) / 2;
 
   const detections = bestPredictionIndicesArray.map<DetectedObject>((i) => {
     const [y1, x1, y2, x2] = boxesArr[i];
 
-    const scaledX1 = x1 * sourceRatio + halfWidthTruncatedPx;
-    const scaledY1 = y1 * sourceRatio + halfHeightTruncatedPx;
+    const scaledX1 = x1 * sourceRatio - halfWidthPaddedPx;
+    const scaledY1 = y1 * sourceRatio - halfHeightPaddedPx;
 
-    const scaledX2 = x2 * sourceRatio;
-    const scaledY2 = y2 * sourceRatio;
+    const scaledX2 = x2 * sourceRatio - halfWidthPaddedPx;
+    const scaledY2 = y2 * sourceRatio - halfHeightPaddedPx;
 
     return {
       bbox: [scaledX1, scaledY1, scaledX2 - scaledX1, scaledY2 - scaledY1],
