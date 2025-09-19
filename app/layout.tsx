@@ -21,11 +21,13 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "AI Object Detection & Auto Recording | Smart Video Capture",
   description:
-    "Web-based AI app using TensorFlow.js COCO-SSD model to detect, track, and record objects in real time. Choose objects, auto-record, preview, and download securely in your browser.",
+    "Web-based AI app using TensorFlow.js YOLOv11 model to detect, track, and record objects in real time. Choose objects, auto-record, preview, and download securely in your browser.",
   keywords: [
     "AI video recorder",
     "object detection app",
-    "COCO-SSD",
+    "COCO",
+    "YOLOv11",
+    "webcam video",
     "TensorFlow.js video",
     "automatic video recording",
     "webcam AI detection",

@@ -40,7 +40,7 @@ export function PredictWebcam({
 
   return (
     <div className={cn("grid grid-cols-6 gap-4 py-4", className)} {...props}>
-      <div className="col-span-6 flex flex-col gap-3">
+      <div className="col-span-6 flex flex-col gap-3 [&_.floating-label:first-child]:z-30 [&_.floating-label:nth-child(2)]:z-20">
         <ModelSelect />
         <ObjectsMultiselect
           label="Important objects that will be recorded:"

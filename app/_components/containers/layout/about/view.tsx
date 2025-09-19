@@ -16,7 +16,7 @@ export function About({
     >
       <p>
         Our web-based app uses advanced AI (powered by TensorFlow.js and the
-        COCO-SSD model) to detect objects directly in your browser — no
+        YOLOv11 model) to detect objects directly in your browser — no
         installations required.
       </p>
 
